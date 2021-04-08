@@ -54,6 +54,7 @@ def exists():
         for cell in cells:
             # Execute the cell
             try:
+                check50.log(str(cell))
                 execute(cell)
                 exception = ""
                 passed = True
