@@ -54,8 +54,6 @@ def exists():
         for cell in cells:
             # Execute the cell
             try:
-                check50.log(str(cell))
-                check50.log(str(execute(cell)))
                 exception = ""
                 passed = True
             except check50.Failure as f:
@@ -66,8 +64,7 @@ def exists():
             if check_jupyter.is_test_cell(cell):
                 results.append((check_jupyter.get_cell_id(cell), passed, exception))
 
-    #raise Exception(tuple(results))
-   # Pass down the results to the actual checks
+    # Pass down the results to the actual checks
     return tuple(results)
 
 
