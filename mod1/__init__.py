@@ -67,7 +67,7 @@ def exists():
                 results.append((check_jupyter.get_cell_id(cell), passed, exception))
 
     #raise Exception(tuple(results))
-    # Pass down the results to the actual checks
+   # Pass down the results to the actual checks
     return tuple(results)
 
 
