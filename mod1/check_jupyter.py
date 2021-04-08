@@ -82,6 +82,8 @@ def executor():
     notebook_client.kc = kernel_client
 
     yield execute
+    
+    notebook_client.shutdown_kernel()
 
 
 def output_from_cell(cell):
