@@ -69,8 +69,8 @@ def executor():
                 results.append(notebook_client.execute_cell(cell, index))
                 #results.append(ep.preprocess_cell(cell, {}, index))
             except CellExecutionError as e:
+                time.sleep(1)
                 raise check50.Failure(str(e))
-            time.sleep(1)
 
         return results
 
