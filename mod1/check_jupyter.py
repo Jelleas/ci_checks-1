@@ -5,6 +5,7 @@ from nbconvert.preprocessors import ExecutePreprocessor, CellExecutionError
 import jupyter_client.manager
 import nbclient
 import contextlib
+import time
 
 def cells_up_to(notebook_path, cell_id):
     """
@@ -69,6 +70,7 @@ def executor():
                 #results.append(ep.preprocess_cell(cell, {}, index))
             except CellExecutionError as e:
                 raise check50.Failure(str(e))
+            time.sleep(1)
 
         return results
 
