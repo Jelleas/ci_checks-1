@@ -68,8 +68,8 @@ def executor():
             try:
                 results.append(notebook_client.execute_cell(cell, index))
             except CellExecutionError as e:
-                #time.sleep(1)
-                notebook_client.km.interrupt_kernel()
+                time.sleep(.1)
+                #notebook_client.km.interrupt_kernel()
                 raise check50.Failure(str(e))
 
         return results
