@@ -2,6 +2,8 @@ import nbformat
 import check50
 from nbconvert.preprocessors import ExecutePreprocessor, CellExecutionError
 
+import jupyter_client.manager
+import nbclient
 import contextlib
 
 def cells_up_to(notebook_path, cell_id):
@@ -63,7 +65,8 @@ def executor():
         results = []
         for index, cell in enumerate(cells):
             try:
-                results.append(ep.preprocess_cell(cell, {}, index))
+                results.append(notebook_client.execute_cell(cell, index))
+                #results.append(ep.preprocess_cell(cell, {}, index))
             except CellExecutionError as e:
                 raise check50.Failure(str(e))
 
@@ -71,16 +74,22 @@ def executor():
 
     # Start an ExecutePreprocessor: https://nbconvert.readthedocs.io/en/latest/execute_api.html
     # https://github.com/jupyter/nbconvert/blob/master/nbconvert/preprocessors/execute.py
-    ep = ExecutePreprocessor(timeout=600, kernel_name='python3')
+    #ep = ExecutePreprocessor(timeout=600, kernel_name='python3')
 
+    kernel_manager, kernel_client = jupyter_client.manager.start_new_kernel(kernel_name="python3")
+
+    notebook = nbformat.from_dict({"cells": {}})
+    resources = {}
+    notebook_client = nbclient.NotebookClient(nb=notebook, resources=resources, km=kernel_manager)
+    notebook_client.kc = kernel_client
     # https://github.com/jupyter/nbconvert/blob/e49b9a8a220c9f9f87c23764ea7b48eac4707937/nbconvert/preprocessors/execute.py#L23
     # this new dependency on NotebookClient also creates some ugliness on our end
-    ep.store_history = True            
-    ep.nb = {"cells": {}}
+    # ep.store_history = True            
+    # ep.nb = {"cells": {}}
 
     # Start a Kernel Manager
-    with ep.setup_kernel():
-        yield execute
+    #with notebook_client.setup_kernel():
+    yield execute
 
 
 def output_from_cell(cell):
