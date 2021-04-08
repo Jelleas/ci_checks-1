@@ -55,7 +55,7 @@ def exists():
             # Execute the cell
             try:
                 check50.log(str(cell))
-                check50.log(execute(cell))
+                check50.log(str(execute(cell)))
                 exception = ""
                 passed = True
             except check50.Failure as f:
